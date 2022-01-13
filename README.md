@@ -1,7 +1,5 @@
 # DiscordBot
-AwA, AwA Bot
-AwA.corona
-    insult
-no help command implemented(yet)
-corona
-insult
+AwA, AwA Bot ; 
+AwA.corona or AwA.insult ; 
+no help command implemented(yet) ; 
+
