@@ -5,7 +5,7 @@ from urllib import request
 from datetime import datetime as dt
 from keep_alive import keep_alive as ka
 
-colours = {"Black": 0x1000000, "Blue": 0x0000FF, "Brown": 0x800000, "Cyan": 0x00FFFF, "Gray": 0x808080,
+colours = {"Black": 0x000000, "Blue": 0x0000FF, "Brown": 0x800000, "Cyan": 0x00FFFF, "Gray": 0x808080,
            "Green": 0x008000, "Lime": 0x00FF00, "Magenta": 0xFF00FF, "Navy": 0x000080, "Orange": 0xFF6600,
            "Purple": 0x800080, "Red": 0xFF0000, "Silver": 0xC0C0C0, "White": 0xFFFFFF, "Yellow": 0xFFFF00}
 
@@ -50,18 +50,20 @@ async def corona(ctx):
         inz_ger = str(round(json.loads(api_fetched.read())['weekIncidence']))
     colour = colours.get("Magenta")
     if int(inz_ger) < 50:
-        colour = colours.get("Lime")
-    elif int(inz_ger) > 50 and int(inz_ger) < 200:
-        colour = colours.get("Green")
-    elif int(inz_ger) > 200 and int(inz_ger) < 400:
-        colour = colours.get("Navy")
-    elif int(inz_ger) > 400 and int(inz_ger) < 600:
-        colour = colours.get("Red")
-    elif int(inz_ger) > 600:
-        colour = colours.get("Black")
+      colour = colours.get("Lime")
+    elif int(inz_ger) in range(50,200):
+      colour = colours.get("Green")
+    elif int(inz_ger) in range(200,400):
+      colour = colours.get("Yellow")
+    elif int(inz_ger) in range(400,600):
+      colour = colours.get("Orange")
+    elif int(inz_ger) in range(600, 800):
+       colour = colours.get("Red")
+    elif int(inz_ger) > 800:
+      colour = colours.get("Black")
 
     embed = discord.Embed(title="corona", url="https://github.com/MrrLime/DiscordBot",
-                          description="Alle 16 Bundesländer und deren Rechtschreibung.", color=colour)
+                          description="Alle 16 Bundesländer und deren Rechtschreibung.", color=colours.get("Cyan"))
 
     embed.add_field(name="Bitte gib das gewünschte Bundesland ein.", value=value, inline=False)
     embed.set_footer(text="®by MrrLime")
@@ -72,7 +74,6 @@ async def corona(ctx):
         await ctx.send(":Timeout:")
     else:
         state_short = states.get(message.content)
-        colour = colours.get("Magenta")
         with urllib.request.urlopen(api.get("api_raw_sta")) as api_fetched:
             inz_sta = str(round(json.loads(api_fetched.read())['data'][state_short]['weekIncidence']))
         if state_short == "BY":
