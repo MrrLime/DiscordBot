@@ -14,14 +14,16 @@ api = {"api_raw_dis": "https://api.corona-zahlen.org/districts", "api_raw_sta": 
 
 date_today = dt.today().strftime('%d-%m-%y')
 
+prefix = input("prefix: ")
+
 insult_list = []
 insult_path = "Insults.txt"
 # insult_lists = []
 # insult_lists.append(("[~] Input listpath: "))
 
 
-bot = commands.Bot(command_prefix="AwA.")
-
+bot = commands.Bot(command_prefix=prefix)
+bot.remove_command('help')
 
 @bot.event
 async def on_ready():
@@ -31,8 +33,14 @@ async def on_ready():
 
 async def status_task():
     while True:
-        await bot.change_presence(activity=discord.Game("on hardcore mode"), status=discord.Status.online)
+        await bot.change_presence(activity=discord.Game(f"{prefix}help"), status=discord.Status.online)
 
+@bot.command(name="help")
+async def help(ctx):
+  embed = discord.Embed(title="Help",url="https://github.com/MrrLime/DiscordBot", description="All commands and there usage", color=colours.get("Green"))
+  embed.add_field(name="➤ **corona** ", value="is able to show the incidences of each states in gerrmany", inline=False)
+  embed.add_field(name="➤ **insult** ", value="is able to insult the person you wish to insult with a variety of isults", inline=False)
+  await ctx.send(embed=embed)
 
 @bot.command(name="corona")
 async def corona(ctx):
@@ -44,7 +52,7 @@ async def corona(ctx):
               'Sachsen-Anhalt': 'ST', 'Brandenburg': 'BB', 'Mecklenburg-Vorpommern': 'MV', 'Hamburg': 'HH',
               'Schleswig-Holstein': 'SH', 'Saarland': 'SL', 'Bremen': 'HB'}
 
-    value = 'Berlin\n Bayern\n Niedersachsen\n Baden-Württemberg\n Rheinland-Pfalz\n Sachsen\n Thüringen\n Hessen\n Nordrhein-Westfalen\n Sachsen-Anhalt\n Brandenburg\n Mecklenburg-Vorpommern\n Hamburg\n Schleswig-Holstein\n Saarland\n Bremen'
+    value = '➤ Berlin\n ➤ Bayern\n ➤ Niedersachsen\n ➤ Baden-Württemberg\n ➤ Rheinland-Pfalz\n ➤ Sachsen\n ➤ Thüringen\n ➤ Hessen\n ➤ Nordrhein-Westfalen\n ➤ Sachsen-Anhalt\n ➤ Brandenburg\n ➤ Mecklenburg-Vorpommern\n ➤ Hamburg\n ➤ Schleswig-Holstein\n ➤ Saarland\n ➤ Bremen'
 
     with urllib.request.urlopen(api.get("api_raw_ger")) as api_fetched:
         inz_ger = str(round(json.loads(api_fetched.read())['weekIncidence']))
@@ -63,9 +71,9 @@ async def corona(ctx):
       colour = colours.get("Black")
 
     embed = discord.Embed(title="corona", url="https://github.com/MrrLime/DiscordBot",
-                          description="Alle 16 Bundesländer und deren Rechtschreibung.", color=colours.get("Cyan"))
+                          description=" Alle 16 Bundesländer und deren Rechtschreibung.", color=colours.get("Cyan"))
 
-    embed.add_field(name="Bitte gib das gewünschte Bundesland ein.", value=value, inline=False)
+    embed.add_field(name="  Bitte gib das gewünschte Bundesland ein.", value=value, inline=False)
     embed.set_footer(text="®by MrrLime")
     await ctx.send(embed=embed)
     try:
@@ -82,10 +90,10 @@ async def corona(ctx):
         state_short = states.get(message.content)
         embed = discord.Embed(title="Inzidenzen", url="https://github.com/MrrLime/DiscordBot",
                               description="Inzidenzen für ganz Deutschland", color=colour)
-        embed.add_field(name="Inzidenz Deutschland: ", value=inz_ger, inline=False)
-        embed.add_field(name=f"Inzidenz {message.content}: ", value=inz_sta, inline=False)
+        embed.add_field(name="➤ Inzidenz Deutschland: ", value=f"• {inz_ger}", inline=False)
+        embed.add_field(name=f"➤ Inzidenz {message.content}: ", value=f"• {inz_sta}", inline=False)
         if state_short == "BY":
-            embed.add_field(name="Inzidenz Main-Spessart:", value=inz_dis, inline=False)
+            embed.add_field(name="➤ Inzidenz Main-Spessart:", value=f"• {inz_dis}", inline=False)
         embed.set_footer(text="®by MrrLime")
         await ctx.send(embed=embed)
 
