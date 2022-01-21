@@ -14,7 +14,7 @@ api = {"api_raw_dis": "https://api.corona-zahlen.org/districts", "api_raw_sta": 
 
 date_today = dt.today().strftime('%d-%m-%y')
 
-prefix = input("prefix: ")
+prefix = input("[+]prefix: ")
 
 insult_list = []
 insult_path = "Insults.txt"
@@ -37,8 +37,8 @@ async def status_task():
 
 @bot.command(name="help")
 async def help(ctx):
-  embed = discord.Embed(title="Help",url="https://github.com/MrrLime/DiscordBot", description="All commands and there usage", color=colours.get("Green"))
-  embed.add_field(name="➤ **corona** ", value="is able to show the incidences of each states in gerrmany", inline=False)
+  embed = discord.Embed(title="Help",url="https://github.com/MrrLime/DiscordBot", description="All commands and their usage", color=colours.get("Green"))
+  embed.add_field(name="➤ **corona** ", value="is able to show the incidences of each state in germany", inline=False)
   embed.add_field(name="➤ **insult** ", value="is able to insult the person you wish to insult with a variety of isults", inline=False)
   await ctx.send(embed=embed)
 
