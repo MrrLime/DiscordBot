@@ -1,10 +1,9 @@
-# this is a python file
-import discord, json, urllib, asyncio, random
+import discord, json, urllib, asyncio, random, time
 from discord.ext import commands
 from urllib import request
 from datetime import datetime as dt
-from keep_alive import keep_alive as ka
-from functions import taint
+from python.keep_alive import keep_alive as ka
+from python.functions import taint
 
 colours = {"Black": 0x000000, "Blue": 0x0000FF, "Brown": 0x800000, "Cyan": 0x00FFFF, "Gray": 0x808080,
            "Green": 0x008000, "Lime": 0x00FF00, "Magenta": 0xFF00FF, "Navy": 0x000080, "Orange": 0xFF6600,
@@ -21,7 +20,7 @@ prefix = "m."
 VIPs = ["awa", "bot", "emil"]
 
 insult_list = []
-insult_path = "Insults.txt"
+insult_path = "objects/Insults.txt"
 # insult_lists = []
 # insult_lists.append(("[~] Input listpath: "))
 
@@ -41,11 +40,21 @@ async def status_task():
 
 @bot.command(name="help")
 async def help(ctx):
-  embed = discord.Embed(title="Help",url="https://BotCollection.rexy27t.repl.co", description="All commands and their usage", color=colours.get("Green"))
+  embed = discord.Embed(title="Help",url="https://github.com/MrrLime/DiscordBot", description="All commands and their usage", color=colours.get("Green"))
   embed.add_field(name=f"➤ **{prefix}** (prefix)", value="used before every command, Basti", inline=False)
   embed.add_field(name="➤ **corona** (command)", value="is able to show the incidences of each state in germany(send msp afterwards for msp incidence)", inline=False)
   embed.add_field(name="➤ **insult** (command)", value="is able to insult the person you wish to insult with a variety of isults", inline=False)
+  embed.add_field(name="➤ **invite** (command)", value="invite this bot to your own server", inline=False)
   await ctx.send(embed=embed, delete_after=60)
+  await ctx.message.delete()
+
+
+@bot.command(name="invite")
+async def invite(ctx):
+  embed = discord.Embed(title="Invite here", url="https://discordapp.com/oauth2/authorize?client_id=923321635971412040&permissions=4294967287&scope=bot%20applications.commands")
+  await ctx.send(embed=embed, delete_after=5)
+  time.sleep(2)
+  await ctx.send("🆗", delete_after=69) 
   await ctx.message.delete()
 
 
